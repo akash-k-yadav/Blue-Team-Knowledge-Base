@@ -44,6 +44,44 @@
   - visualize data (bar chart, pie chart, etc)  
 
 ---
+## Deployment Modes
+
+- Splunk can be deployed in different ways depending on scale and need  
+
+### Standalone
+- all components (forwarder, indexer, search head) run on a single machine  
+- used for learning, testing, or small environments  
+
+### Distributed Deployment
+- components are separated across multiple machines  
+- forwarders send data to multiple indexers  
+- search head queries data from indexers  
+
+### Clustered Environment
+- multiple indexers work together for scalability and fault tolerance  
+- data is replicated across indexers  
+- used in large enterprise setups  
+---
+## Index and Event Concept
+
+- Splunk stores data in indexes  
+
+- **index** :- a logical storage location where events are stored  
+- **event** :- a single log entry or record  
+
+example:
+
+`index=main`
+
+
+- events are stored with fields like:
+  - timestamp  
+  - source  
+  - host  
+  - raw data  
+
+- when searching, Splunk looks into indexes and retrieves matching events  
+---
 
 ## Data Flow in Splunk
 
