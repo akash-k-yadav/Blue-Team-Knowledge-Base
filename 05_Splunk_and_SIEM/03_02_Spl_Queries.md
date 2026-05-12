@@ -80,3 +80,66 @@ stats values(dest_ip)
 
 - this command returns the list of unique destination IP addresses instead of just the count  
 
+### sum()
+- this function adds all numeric values of a field together  
+- mostly used for calculating total traffic, bytes transferred, or total requests  
+
+- syntax:
+```
+stats sum(field_name) by field_name
+```
+
+- **example**
+
+```
+stats sum(bytes) by src_ip
+```
+
+
+- this command returns total bytes sent by each source IP  
+
+
+
+### min()
+- this function returns the minimum or smallest value from a field  
+
+- syntax:
+```
+stats min(field_name) by field_name
+```
+
+- **example**
+```
+stats min(response_time) by host
+```
+- this command returns the lowest response time for each host  
+
+### max()
+- this function returns the maximum or largest value from a field  
+
+- syntax:
+```
+stats max(field_name) by field_name
+```
+- **example**
+
+```
+stats max(bytes) by src_ip
+```
+
+- this command returns the highest number of bytes sent by each source IP  
+
+### avg()
+- this function calculates the average value of a numeric field  
+
+- syntax:
+```
+stats avg(field_name) by field_name
+```
+
+- **example**
+```
+stats avg(bytes) by src_ip
+```
+
+- this command returns the average number of bytes sent by each source IP  
