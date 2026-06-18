@@ -143,3 +143,82 @@ stats avg(bytes) by src_ip
 ```
 
 - this command returns the average number of bytes sent by each source IP  
+---
+## Sort Command
+
+### What is sort command?
+- sort command is used to arrange search results in a specific order
+- by default, Splunk sorts results in descending order
+- it is commonly used after commands like `stats`, `table`, or `chart` to make results easier to analyze
+
+- syntax:
+
+```text
+... | sort field_name
+```
+
+### Ascending Sort
+
+- ascending sort arranges values from smallest to largest
+
+- syntax:
+
+```text
+... | sort field_name
+```
+
+- **example**
+
+```text
+index=windows EventCode=4625
+| stats count by user
+| sort count
+```
+
+- this command sorts users by failed login count from lowest to highest
+
+### Descending Sort
+
+- descending sort arranges values from largest to smallest
+
+- syntax:
+
+```text
+... | sort - field_name
+```
+
+- **example**
+
+```text
+index=windows EventCode=4625
+| stats count by user
+| sort - count
+```
+
+- this command sorts users by failed login count from highest to lowest
+
+### Sort Multiple Fields
+
+- sort can also use multiple fields
+
+- syntax:
+
+```text
+... | sort - field_1 field_2
+```
+
+- **example**
+
+```text
+| stats count by src_ip user
+| sort - count user
+```
+
+- first sorts by count in descending order
+- if two records have the same count, they are sorted by user name
+
+### Why Use Sort?
+
+- helps identify top users, IPs, hosts, or processes quickly
+- useful after `stats`, `chart`, or `table` commands
+- makes large result sets easier to read and investigate
