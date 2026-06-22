@@ -39,7 +39,7 @@ Windows doesn't just dump everything into one single log file. It splits things 
 This one has events from applications and programs running on the system. So if some software crashes or throws an error, it usually ends up here. Any app that is built to write to the event log will write to this one.
 
 **System Log**
-This is for events coming from Windows itself — like drivers, core services, hardware stuff. If a driver fails to load or a windows service goes down, you'll find it in here. This one is probably the most useful when you're troubleshooting system level problems.
+This is for events coming from Windows itself like drivers, core services, hardware stuff. If a driver fails to load or a windows service goes down, you'll find it in here. This one is probably the most useful when you're troubleshooting system level problems.
 
 **Security Log**
 This one is different from the others because not just anyone can write to it. Only Windows and authorized security software can. It records things like login attempts, failed logins, account lockouts, file access if auditing is turned on. If you're doing anything security related this is the first place you check.
@@ -49,3 +49,4 @@ This one records stuff related to Windows installation and updates. Honestly you
 
 **Forwarded Events**
 This one is more of an enterprise thing. When multiple machines are set up to send their logs to one central machine, those logs land here. So instead of checking 50 machines individually you check one place.
+
