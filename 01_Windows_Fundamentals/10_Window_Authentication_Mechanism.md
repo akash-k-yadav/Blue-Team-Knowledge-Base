@@ -41,7 +41,7 @@
 - This NT hash is used as a key to encrypt the current timestamp (the output of this will be referred to as TS ciphertext in this file).
 - TS ciphertext and username are transmitted to the Authentication Service on the domain controller.
 - The domain controller decrypts the TS ciphertext using the user's NT hash representation (stored in the NTDS.dit file) and based on the result (current timestamp) authenticates the user.
-
+- **Event ID
 ### Step 1 Response: AS-REP
 - In case of successful authentication, the DC sends two things:
   - 1 **Session Key:** session key encrypted with the user's NT hash
@@ -87,3 +87,34 @@
 - TGT allows an already authenticated user to request service tickets without authenticating again.
 - Service tickets allow the requested service to know the user or system is already authenticated, and based on service local policies and user privileges, grant or deny access.
 - The domain controller acts as a trusted entity in the domain. Every system, user, and service trusts the domain controller and the tickets issued by it.
+
+## Authentication Event IDs
+### Kerberos Authentication
+- **4768** fires when a TGT is requested (AS-REQ) and contains the result (failed or successful issuance).
+   - The network information section of the event contains additional information about the remote host in the event of a remote logon attempt.
+   - The keyword field indicates whether the authentication attempt was successful or failed. In case of a failed attempt, the result code in the event description provides additional information about the reason for failure.
+- **4769** fires when a service ticket is requested by a user account for a specified resource.
+   - The event contains information about the source IP of the system that made the request, the user account used, and the service to be accessed.
+   - The event also indicates whether the request was successful or failed, and the code provides additional information about the failure.
+- **4770** fires when a service ticket is renewed. The account name, service name, client IP address, and encryption type are recorded.
+- **4771** fires for failed Kerberos pre-authentication. Depending on the reason for a failed Kerberos logon, either event ID 4768 or event ID 4771 is created. In both cases, the code provides additional information about the failure.
+
+### NTLM Authentication
+- **4776** is logged for NTLM authentication events.
+   - The network information section of the event contains additional information about the remote host in the event of a remote logon attempt.
+   - The keyword field indicates whether the authentication attempt succeeded or failed, and the error code provides a description of the failure.
+
+## Normal Baseline Scenario of Kerberos Authentication
+- In this scenario we will look at what events are logged during Kerberos authentication where a user sits on Client_Workstation_1 and attempts logon in a domain environment.
+
+### On Domain Controller
+- **4768** for TGT request (AS-REQ)
+- **4769 (For Client_Workstation_1)** service ticket requested for the client machine the user is sitting at, as that system needs to be accessed for the logon to complete
+- **4769 (For DC)** service ticket requested for the domain controller itself, as the client needs to access DC services to complete authentication
+- **4769 (For krbtgt)** service ticket requested for the krbtgt service, which is responsible for authentication and issuance of tickets
+- **4624 Logon Type 3** remote logon to the domain controller required for processing authentication
+- **4634/4647** records the end of the remote logon session. The logon ID in this event will match the logon ID in the corresponding 4624 event, allowing correlation of the session start and end
+
+### On Client_Workstation_1
+- **4624 Logon Type 2** for interactive logon. Credentials and TGT are cached in memory and managed by the LSASS process
+- **4634/4647** recorded when the user logs off from Client_Workstation_1
