@@ -1,8 +1,8 @@
 # Blue-Team-Knowledge-Base
-Windows internals, attack types, security frameworks,  firewall, IDS, and Splunk — everything a SOC analyst needs to know.
+Windows internals, attack types, security frameworks,  firewall, IDS, and Splunk ,mostly everything a cybersecurity professionals needs to know.
 
-This repo is my personal documentation of everything 
-I've been learning on my path to becoming a SOC analyst. 
+This repo is my personal documentation of everything that i learned in my journey.
+
 It covers the theory and concepts that actually matter 
 in a real security operations environment.
 
@@ -15,7 +15,7 @@ and goes deeper into the defensive security side.
 ## What's Inside
 
 **Windows Fundamentals**  
-How Windows actually works under the hood — architecture, 
+How Windows actually works under the hood , architecture, 
 file system, user accounts, processes, services, registry, 
 and event logs. Written from a SOC perspective, so the 
 focus is always on what matters for detection and investigation.
@@ -23,7 +23,7 @@ focus is always on what matters for detection and investigation.
 **Attack Types**  
 Social engineering, password attacks, DoS and DDoS, 
 malware, and MITM attacks. Each one includes how the 
-attack works and more importantly how to detect it in logs.
+attack works.
 
 **Security Frameworks**  
 Pyramid of Pain, Cyber Kill Chain, Unified Kill Chain, 
@@ -39,23 +39,8 @@ architecture side of blue teaming.
 **Splunk and SIEM**  
 How SIEM works, Splunk architecture, SPL queries with 
 real examples, and how to use Splunk the way a SOC 
-analyst actually uses it — not just the basics.
+analyst actually uses.
 
 ---
-
-## My Other Repos
-
-- **Cyber-Security-notes-labs** — Networking 
-concepts from OSI to SSL/TLS, Linux fundamentals, 
-and Wireshark protocol labs with packet level analysis
 
   
-
----
-
-## Note
-
-Everything here is written in my own words from my 
-own understanding. These are not copy pasted notes. 
-If something is wrong or could be better, feel free 
-to open an issue.
