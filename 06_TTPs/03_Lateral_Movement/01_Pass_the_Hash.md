@@ -18,9 +18,9 @@ There are also other ways such as NTDS extraction, DCSync, etc.
 - Useful for lateral movement, resource access, and code execution once authenticated
 
 ## How the Attack Works
-1. Adversary has already stolen the NTLM hash representation of an account's password
-2. Adversary uses tools such as Metasploit or Mimikatz to inject this stolen hash and perform NTLM authentication as that account
-3. Once successfully authenticated, the adversary abuses the stolen account's privileges for lateral movement, resource access, code execution, etc.
+- 1. Adversary has already stolen the NTLM hash representation of an account's password
+- 2. Adversary uses tools such as Metasploit or Mimikatz to inject this stolen hash and perform NTLM authentication as that account
+- 3. Once successfully authenticated, the adversary abuses the stolen account's privileges for lateral movement, resource access, code execution, etc.
 
 ## MITRE ATT&CK
 Pass the hash lets an adversary authenticate as a user by directly using a stolen password hash instead of a cleartext password, skipping the normal steps that require entering a plaintext credential.
