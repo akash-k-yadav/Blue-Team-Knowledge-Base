@@ -49,3 +49,32 @@ PsExec is cataloged as Software S0029. Its lateral movement mechanism relies on 
 - **Sub-technique of:** T1021
 - **Tactic:** Lateral Movement
 - **Platform:** Windows
+
+## Detection
+
+### Event IDs to Monitor
+| Event ID | Source | Description |
+|---|---|---|
+| 7045 | System Log | New service installed |
+| 4697 | Windows Security | Service installed |
+| 7036 | System Log | Service state change |
+| 1 | Sysmon | Process creation |
+| 5145 | Windows Security | Detailed file share access |
+| 4648 | Windows Security | A logon was attempted using explicit credentials (only if `-u` is used) |
+| 17 | Sysmon | Named pipe created (PsExec uses named pipes to relay stdin, stdout, and stderr between the source and destination) |
+
+### Correlation Framework
+We can detect PsExec lateral movement by starting on the destination side and then pivoting to the source host for further context.
+
+- **Step 1 :-** filter for EventCode `7045` (service installation) and hunt for a service name of `PSEXESVC`
+- **Step 2 :-** identify the destination host from Step 1
+- **Step 3 :-** filter for EventCode `1` on the destination host where ParentImage is `PSEXESVC`
+- **Step 4 :-** check the command line of the spawned process to see what's actually being executed, malicious use of PsExec would often contain command-line discovery commands such as `whoami`, `net localgroup administrators`, etc.
+- **Step 5 :-** filter for EventCode `17`, check host, image, and pipename, the pipename contains the name of the source host the remote command is coming from
+- **Step 6 :-** filter for EventCode `5145` on the destination host identified in Step 2, this logs the specific files and objects accessed through the share, shown in the Relative_Target_Name field
+- **Step 7 :-** now that the source host is identified, look for EventCode `1` where the image is `psexec`, to see the actual commands used by the attacker remotely
+
+### Key Notes
+- Attackers know security tools look for `PSEXESVC` by name. PsExec's `-r` flag lets the operator specify a custom service name, running `PsExec -r renamed_psexec \\target cmd` creates a service called `renamed_psexec` instead of `PSEXESVC`
+- The more reliable pattern to hunt for is any new service with Service_Type of "user mode service" and Service_Start_Type of "demand start," the service name and binary can change, but this signature stays consistent
+- Named pipe detection (Step 5) is one of the few artifacts that survives service renaming, since the pipe still carries the source hostname regardless of what the service is called
